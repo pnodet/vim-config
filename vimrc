@@ -1,40 +1,105 @@
+" => Colorscheme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax enable       " Enable syntax highlighting
+
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
 packadd! dracula
 colorscheme dracula
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Maintainer: 
-"       Amir Salihefendic — @amix3k
-"
-" Awesome_version:
-"       Get this config, nice color schemes and lots of plugins!
-"
-"       Install the awesome version from:
-"
-"           https://github.com/amix/vimrc
-"
-" Sections:
-"    -> General
-"    -> VIM user interface
-"    -> Colors and Fonts
-"    -> Files and backups
-"    -> Text, tab and indent related
-"    -> Visual mode related
-"    -> Moving around, tabs and buffers
-"    -> Status line
-"    -> Editing mappings
-"    -> vimgrep searching and cope displaying
-"    -> Spell checking
-"    -> Misc
-"    -> Helper functions
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spaces & Tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set tabstop=4       " number of visual spaces per TAB
+set softtabstop=4   " number of spaces in tab when editing
+set shiftwidth=4    " Insert 4 spaces on a tab
+set expandtab       " tabs are spaces, mainly because of python
+set smarttab        " Be smart when using tabs ;)
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
+
+" => UI Config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"set relativenumber     " show relative numbering
+set number              " show line numbers
+set ruler               " always show current position
+set cursorline          " highlight current line
+set foldcolumn=1        " Add a bit extra margin to the left
+set showcmd             " show command in bottom bar
+filetype indent on      " load filetype-specific indent files
+filetype plugin on      " load filetype specific plugin files
+set wildmenu            " visual autocomplete for command menu
+set wildmode=list:full  " Complete files like a shell.
+set showmatch           " highlight matching [{()}]
+set laststatus=2        " Show the status line at the bottom
+set mouse+=a            " A necessary evil, mouse support
+set splitbelow          " Open new vertical split bottom
+set splitright          " Open new horizontal splits right
+set linebreak           " Have lines wrap instead of continue off-screen
+set scrolloff=12        " Keep cursor in approximately the middle of the screen
+set updatetime=100      " Some plugins require fast updatetime
+set ttyfast             " Improve redrawing
+set lazyredraw          " Don't redraw while executing macros (good performance config)
+set magic               " For regular expressions turn magic on
+
+set cmdheight=1         " Height of the command bar
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+
+" => Sound Config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set noerrorbells visualbell t_vb=       " No annoying sound on errors
+set tm=500
+
+" Properly disable sound on errors on MacVim
+if has("gui_macvim")
+    autocmd GUIEnter * set vb t_vb=
+endif
+
+
+" => Searching
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set incsearch           " search as characters are entered
+set hlsearch            " highlight matches
+set ignorecase          " Ignore case in searches by default
+set smartcase           " But make it case sensitive if an uppercase is entered
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+
+" => Buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set hidden              " Allows having hidden buffers (not displayed in any window)
+
+
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
-set history=500
+set history=9000                  " Sets how many lines of history VIM has to remember
+set undolevels=2000               " use many levels of undo
 
 " Enable filetype plugins
 filetype plugin on
@@ -56,107 +121,17 @@ nmap <leader>w :w!<cr>
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
 " Avoid garbled characters in Chinese language windows OS
 let $LANG='en' 
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
-" Turn on the Wild menu
-set wildmenu
 
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if has("win16") || has("win32")
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-"Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=1
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases 
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch 
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw 
-
-" For regular expressions turn magic on
-set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch 
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
-
-" Add a bit extra margin to the left
-set foldcolumn=1
-
-
+" => Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable 
-
-" Enable 256 colors palette in Gnome Terminal
-if $COLORTERM == 'gnome-terminal'
-    set t_Co=256
-endif
-
-try
-    colorscheme desert
-catch
-endtry
-
-set background=dark
-
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions-=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
-
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf8
 
@@ -164,38 +139,13 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git etc. anyway...
-set nobackup
-set nowb
-set noswapfile
+set nobackup                      " Don't make a backup before overwriting a file.
+set nowritebackup                 " And again.
+set noswapfile                    " Use an SCM instead of swap files
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
-
-" Be smart when using tabs ;)
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
-
-
-""""""""""""""""""""""""""""""
 " => Visual mode related
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
@@ -204,7 +154,6 @@ vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
@@ -241,7 +190,6 @@ let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
-
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <C-r>=expand("%:p:h")<cr>/
@@ -260,7 +208,6 @@ endtry
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
-""""""""""""""""""""""""""""""
 " => Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
@@ -270,11 +217,10 @@ set laststatus=2
 set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Remap VIM 0 to first non-blank character
-map 0 ^
+nmap Q <Nop>    " 'Q' in normal mode enters Ex mode. You almost never want this.
+map 0 ^         " Remap VIM 0 to first non-blank character
 
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -303,7 +249,6 @@ if has("autocmd")
 endif
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
@@ -316,7 +261,6 @@ map <leader>sa zg
 map <leader>s? z=
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
@@ -332,9 +276,20 @@ map <leader>x :e ~/buffer.md<cr>
 map <leader>pp :setlocal paste!<cr>
 
 
+" => CUSTOM FUNCTIONS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" toggle between number and relativenumber
+function! ToggleLineNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+command! LineNumberToggle call ToggleLineNumber()
+
 " Returns true if paste mode is enabled
 function! HasPaste()
     if &paste
