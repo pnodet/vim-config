@@ -38,7 +38,6 @@ set wrap "Wrap lines
 "set relativenumber     " show relative numbering
 set number              " show line numbers
 set ruler               " always show current position
-set cursorline          " highlight current line
 set foldcolumn=1        " Add a bit extra margin to the left
 set showcmd             " show command in bottom bar
 filetype indent on      " load filetype-specific indent files
