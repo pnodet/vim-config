@@ -7,9 +7,6 @@ if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
 
-packadd! dracula
-colorscheme dracula
-
 set background=dark
 
 " Set extra options when running in GUI mode
@@ -40,8 +37,6 @@ set number              " show line numbers
 set ruler               " always show current position
 set foldcolumn=1        " Add a bit extra margin to the left
 set showcmd             " show command in bottom bar
-filetype indent on      " load filetype-specific indent files
-filetype plugin on      " load filetype specific plugin files
 set wildmenu            " visual autocomplete for command menu
 set wildmode=list:full  " Complete files like a shell.
 set showmatch           " highlight matching [{()}]
