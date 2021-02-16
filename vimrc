@@ -20,9 +20,9 @@ endif
 
 " => Spaces & Tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set tabstop=4       " number of visual spaces per TAB
-set softtabstop=4   " number of spaces in tab when editing
-set shiftwidth=4    " Insert 4 spaces on a tab
+set tabstop=2       " number of visual spaces per TAB
+set softtabstop=2   " number of spaces in tab when editing
+set shiftwidth=2    " Insert 4 spaces on a tab
 set expandtab       " tabs are spaces, mainly because of python
 set smarttab        " Be smart when using tabs ;)
 
